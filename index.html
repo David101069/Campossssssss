@@ -3,20 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Corazón WhatsApp</title>
+<title>Te quiero Campos ❤️</title>
 <style>
   body {
     min-height: 100vh;
     margin: 0;
-    background: #1a1a1a;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-family: system-ui, sans-serif;
+    font-family: 'Poppins', system-ui, sans-serif;
     color: #fff;
     text-align: center;
+    overflow: hidden;
   }
+
   .stage {
     width: 90vw;
     max-width: 320px;
@@ -25,6 +27,7 @@
     user-select: none;
     padding: 2vh 0;
   }
+
   .heart {
     width: 80%;
     max-width: 220px;
@@ -34,26 +37,49 @@
     margin: 0 auto;
     display: block;
   }
+
   .heart.show {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1.2);
+    animation: beat 0.6s infinite alternate;
   }
+
+  @keyframes beat {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.2); }
+  }
+
   #msg {
-    font-size: 1.15rem;
-    font-weight: bold;
-    margin-top: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
     opacity: 0;
     transition: opacity 0.5s;
     word-break: break-word;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
   }
+
   #msg.show {
     opacity: 1;
   }
-  /* Mejoras visuales para móviles */
+
+  /* corazones flotantes */
+  .floating-heart {
+    position: absolute;
+    font-size: 1.2rem;
+    animation: floatUp 2s forwards;
+    pointer-events: none;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-150px) scale(1.3); opacity: 0; }
+  }
+
   @media (max-width: 400px) {
     .stage { max-width: 98vw; }
     .heart { max-width: 180px; }
-    #msg { font-size: 1rem; }
+    #msg { font-size: 1.1rem; }
   }
 </style>
 </head>
@@ -62,13 +88,14 @@
   <svg class="heart" id="heart" viewBox="0 0 200 180">
     <path fill="#e63946" d="M100 170 C 20 120, 10 60, 42 35 C 68 15, 97 28, 100 48 C 103 28, 132 15, 158 35 C 190 60, 180 120, 100 170 Z"/>
   </svg>
-  <div id="msg">Te quiero ❤️</div>
+  <div id="msg">Te quiero Campos ❤️</div>
 </div>
+
 <script>
 const mensajes = [
-  "Te quiero ❤️",
-  "¿Cómo estás?",
-  "Espero que bien, ojalá que igual de guapa como siempre."
+  "Te quiero Campos ❤️",
+  "Eres la mejor ❤️",
+  "Siempre pienso en ti 😘"
 ];
 let clickCount = 0;
 
@@ -77,13 +104,30 @@ function animar() {
   const msg = document.getElementById('msg');
   heart.classList.remove('show');
   msg.classList.remove('show');
+
   setTimeout(() => {
     heart.classList.add('show');
     setTimeout(() => {
       msg.textContent = mensajes[clickCount];
       msg.classList.add('show');
+      crearCorazon();
     }, 350);
   }, 80);
+}
+
+// Crear corazones flotantes al tocar
+function crearCorazon() {
+  const stage = document.getElementById('stage');
+  const heartEl = document.createElement('div');
+  heartEl.classList.add('floating-heart');
+  heartEl.textContent = "❤️";
+  heartEl.style.left = `${Math.random() * 60 + 20}%`;
+  heartEl.style.fontSize = `${Math.random() * 12 + 14}px`;
+  stage.appendChild(heartEl);
+
+  setTimeout(() => {
+    heartEl.remove();
+  }, 2000);
 }
 
 document.addEventListener('DOMContentLoaded', animar);
