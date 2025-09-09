@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corazón WhatsApp</title>
+<style>
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: system-ui, sans-serif;
+    color: #fff;
+    text-align: center;
+  }
+  .stage {
+    width: 90vw;
+    max-width: 320px;
+    margin-bottom: 2rem;
+    cursor: pointer;
+    user-select: none;
+    padding: 2vh 0;
+  }
+  .heart {
+    width: 80%;
+    max-width: 220px;
+    transition: transform 0.5s cubic-bezier(.68,-0.55,.27,1.55), opacity 0.5s;
+    opacity: 0;
+    transform: scale(0.5);
+    margin: 0 auto;
+    display: block;
+  }
+  .heart.show {
+    opacity: 1;
+    transform: scale(1);
+  }
+  #msg {
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin-top: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.5s;
+    word-break: break-word;
+  }
+  #msg.show {
+    opacity: 1;
+  }
+  /* Mejoras visuales para móviles */
+  @media (max-width: 400px) {
+    .stage { max-width: 98vw; }
+    .heart { max-width: 180px; }
+    #msg { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <svg class="heart" id="heart" viewBox="0 0 200 180">
+    <path fill="#e63946" d="M100 170 C 20 120, 10 60, 42 35 C 68 15, 97 28, 100 48 C 103 28, 132 15, 158 35 C 190 60, 180 120, 100 170 Z"/>
+  </svg>
+  <div id="msg">Te quiero ❤️</div>
+</div>
+<script>
+const mensajes = [
+  "Te quiero ❤️",
+  "¿Cómo estás?",
+  "Espero que bien, ojalá que igual de guapa como siempre."
+];
+let clickCount = 0;
+
+function animar() {
+  const heart = document.getElementById('heart');
+  const msg = document.getElementById('msg');
+  heart.classList.remove('show');
+  msg.classList.remove('show');
+  setTimeout(() => {
+    heart.classList.add('show');
+    setTimeout(() => {
+      msg.textContent = mensajes[clickCount];
+      msg.classList.add('show');
+    }, 350);
+  }, 80);
+}
+
+document.addEventListener('DOMContentLoaded', animar);
+document.getElementById('stage').addEventListener('click', () => {
+  clickCount = (clickCount + 1) % mensajes.length;
+  animar();
+});
+</script>
+</body>
+</html>
